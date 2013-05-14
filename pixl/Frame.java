@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Frame extends java.awt.Frame implements Runnable {
-  public final Screen screen = new Screen();
+  private final Screen screen = new Screen();
   private final List<Renderable> renderables = new ArrayList<Renderable>();
+  private final InputHandler input = new InputHandler();
   
   public Frame(String title) {
     add(screen);
@@ -25,6 +26,10 @@ public class Frame extends java.awt.Frame implements Runnable {
     screen.addKeyListener(input);
     screen.addMouseListener(input);
     screen.addMouseMotionListener(input);
+  }
+  
+  public InputHandler getInputHandler() {
+    return input;
   }
   
   public void render() {

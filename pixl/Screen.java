@@ -49,20 +49,20 @@ public class Screen extends Canvas {
         * sheet.width;
     
     for (int row = 0; row < sheet.TILESIZE; row++) {
-      if (y + row < 0 || y + row >= HEIGHT)
-        continue;
-      
-      for (int col = 0; col < sheet.TILESIZE; col++) {
-        if (x + col < 0 || x + col >= WIDTH)
-          continue;
+      if (y + row >= 0 || y + row < HEIGHT) {
         
-        int sheetIndex = col + row * sheet.width + spriteOffset;
-        int canvasIndex = x + col + (y + row) * WIDTH;
-        
-        int colour = sheet.pixels[sheetIndex];
-        if (colour != PUREBLACK)
-          pixels[canvasIndex] = colour;
-        
+        for (int col = 0; col < sheet.TILESIZE; col++) {
+          if (x + col >= 0 && x + col < WIDTH) {
+            
+            int sheetIndex = col + row * sheet.width + spriteOffset;
+            int canvasIndex = x + col + (y + row) * WIDTH;
+            int colour = sheet.pixels[sheetIndex];
+            
+            if (colour != PUREBLACK) {
+              pixels[canvasIndex] = colour;
+            }
+          }
+        }
       }
     }
   }
