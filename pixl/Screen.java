@@ -49,7 +49,7 @@ public class Screen extends Canvas {
         * sheet.width;
     
     for (int row = 0; row < sheet.TILESIZE; row++) {
-      if (y + row >= 0 || y + row < HEIGHT) {
+      if (y + row >= 0 && y + row < HEIGHT) {
         
         for (int col = 0; col < sheet.TILESIZE; col++) {
           if (x + col >= 0 && x + col < WIDTH) {
@@ -59,6 +59,7 @@ public class Screen extends Canvas {
             int colour = sheet.pixels[sheetIndex];
             
             if (colour != PUREBLACK) {
+              System.out.println(canvasIndex);
               pixels[canvasIndex] = colour;
             }
           }

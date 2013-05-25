@@ -22,7 +22,7 @@ public class Frame extends java.awt.Frame implements Runnable {
     renderables.add(renderable);
   }
   
-  public void addInputListener(InputHandler input) {
+  public void addInputHandler(InputHandler input) {
     screen.addKeyListener(input);
     screen.addMouseListener(input);
     screen.addMouseMotionListener(input);
@@ -49,5 +49,9 @@ public class Frame extends java.awt.Frame implements Runnable {
         ioe.printStackTrace();
       }
     }
+  }
+  
+  public void start() {
+    new Thread(this).start();
   }
 }
