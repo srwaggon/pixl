@@ -59,7 +59,6 @@ public class Screen extends Canvas {
             int colour = sheet.pixels[sheetIndex];
             
             if (colour != PUREBLACK) {
-              System.out.println(canvasIndex);
               pixels[canvasIndex] = colour;
             }
           }

@@ -1,20 +1,23 @@
 package pixl;
 
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Frame extends java.awt.Frame implements Runnable {
+public class Frame extends java.awt.Frame implements Runnable, WindowListener {
   private final Screen screen = new Screen();
   private final List<Renderable> renderables = new ArrayList<Renderable>();
   private final InputHandler input = new InputHandler();
   
   public Frame(String title) {
-    add(screen);
-    setTitle(title);
-    setResizable(false);
-    pack();
-    setVisible(true);
-    setLocationRelativeTo(null);
+    this.add(screen);
+    this.addWindowListener(this);
+    this.setTitle(title);
+    this.setResizable(false);
+    this.pack();
+    this.setVisible(true);
+    this.setLocationRelativeTo(null);
     screen.requestFocus();
   }
   
@@ -41,6 +44,7 @@ public class Frame extends java.awt.Frame implements Runnable {
   
   @Override
   public void run() {
+    
     while (true) {
       render();
       try {
@@ -53,5 +57,34 @@ public class Frame extends java.awt.Frame implements Runnable {
   
   public void start() {
     new Thread(this).start();
+  }
+  
+  @Override
+  public void windowActivated(WindowEvent arg0) {
+  }
+  
+  @Override
+  public void windowClosed(WindowEvent arg0) {
+  }
+  
+  @Override
+  public void windowClosing(WindowEvent arg0) {
+    System.exit(0);
+  }
+  
+  @Override
+  public void windowDeactivated(WindowEvent arg0) {
+  }
+  
+  @Override
+  public void windowDeiconified(WindowEvent arg0) {
+  }
+  
+  @Override
+  public void windowIconified(WindowEvent arg0) {
+  }
+  
+  @Override
+  public void windowOpened(WindowEvent arg0) {
   }
 }
