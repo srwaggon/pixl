@@ -8,7 +8,7 @@ import java.util.List;
 public class Frame extends java.awt.Frame implements Runnable, WindowListener {
   private final Screen screen = new Screen();
   private final List<Renderable> renderables = new ArrayList<Renderable>();
-  private final InputHandler input = new InputHandler();
+  private InputListener input;
   
   public Frame(String title) {
     this.add(screen);
@@ -25,13 +25,13 @@ public class Frame extends java.awt.Frame implements Runnable, WindowListener {
     renderables.add(renderable);
   }
   
-  public void addInputHandler(InputHandler input) {
+  public void addInputHandler(InputListener input) {
     screen.addKeyListener(input);
     screen.addMouseListener(input);
     screen.addMouseMotionListener(input);
   }
   
-  public InputHandler getInputHandler() {
+  public InputListener getInputHandler() {
     return input;
   }
   
