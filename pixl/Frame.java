@@ -11,7 +11,6 @@ public class Frame extends java.awt.Frame implements Runnable {
 
   protected Screen screen;
   protected List<Renderable> renderables = new ArrayList<Renderable>();
-  protected InputListener input;
 
   public Frame(String title) {
     initFrame(title);
@@ -50,17 +49,15 @@ public class Frame extends java.awt.Frame implements Runnable {
   }
 
   public void addInputListener(InputListener input) {
-    screen.removeKeyListener(this.input);
-    screen.removeMouseListener(this.input);
-    screen.removeMouseMotionListener(this.input);
-    this.input = input;
     screen.addKeyListener(input);
     screen.addMouseListener(input);
     screen.addMouseMotionListener(input);
   }
 
-  public InputListener getInputListener() {
-    return input;
+  private void removeInputListener(InputListener input) {
+    screen.removeKeyListener(input);
+    screen.removeMouseListener(input);
+    screen.removeMouseMotionListener(input);
   }
 
   public void render() {
