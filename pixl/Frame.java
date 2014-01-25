@@ -1,31 +1,55 @@
 package pixl;
 
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Frame extends java.awt.Frame implements Runnable, WindowListener {
-  protected final Screen screen = new Screen();
-  protected final List<Renderable> renderables = new ArrayList<Renderable>();
+import pixl.interaction.InputListener;
+import pixl.interaction.SimpleWindowListener;
+
+public class Frame extends java.awt.Frame implements Runnable {
+
+  protected Screen screen;
+  protected List<Renderable> renderables = new ArrayList<Renderable>();
   protected InputListener input;
 
   public Frame(String title) {
-    this.add(screen);
-    this.addWindowListener(this);
-    this.setTitle(title);
-    this.setResizable(false);
-    this.pack();
-    this.setVisible(true);
-    this.setLocationRelativeTo(null);
+    initFrame(title);
+    setScreen(new Screen());
+  }
+
+  public void setScreen(Screen screen) {
+    this.screen = screen;
+    add(screen);
+    pack();
     screen.requestFocus();
+  }
+
+  private void initFrame(String title) {
+    setTitle(title);
+    addWindowListener(getDefaultWindowListener());
+    setLocationRelativeTo(null);
+    setResizable(false);
+    setVisible(true);
+  }
+
+  private SimpleWindowListener getDefaultWindowListener() {
+
+    return new SimpleWindowListener() {
+
+      @Override
+      public void windowClosing(WindowEvent arg0) {
+        super.windowClosing(arg0);
+        System.exit(0);
+      }
+    };
   }
 
   public void addRenderable(Renderable renderable) {
     renderables.add(renderable);
   }
 
-  public void setInputListener(InputListener input) {
+  public void addInputListener(InputListener input) {
     screen.removeKeyListener(this.input);
     screen.removeMouseListener(this.input);
     screen.removeMouseMotionListener(this.input);
@@ -40,8 +64,8 @@ public class Frame extends java.awt.Frame implements Runnable, WindowListener {
   }
 
   public void render() {
-    for (Renderable r : renderables) {
-      r.render(screen);
+    for (Renderable renderable : renderables) {
+      renderable.render(screen);
     }
     screen.render();
   }
@@ -52,7 +76,7 @@ public class Frame extends java.awt.Frame implements Runnable, WindowListener {
     while (true) {
       render();
       try {
-        Thread.sleep(2);
+        Thread.sleep(15);
       } catch (InterruptedException ioe) {
         ioe.printStackTrace();
       }
@@ -61,34 +85,5 @@ public class Frame extends java.awt.Frame implements Runnable, WindowListener {
 
   public void start() {
     new Thread(this).start();
-  }
-
-  @Override
-  public void windowActivated(WindowEvent arg0) {
-  }
-
-  @Override
-  public void windowClosed(WindowEvent arg0) {
-  }
-
-  @Override
-  public void windowClosing(WindowEvent arg0) {
-    System.exit(0);
-  }
-
-  @Override
-  public void windowDeactivated(WindowEvent arg0) {
-  }
-
-  @Override
-  public void windowDeiconified(WindowEvent arg0) {
-  }
-
-  @Override
-  public void windowIconified(WindowEvent arg0) {
-  }
-
-  @Override
-  public void windowOpened(WindowEvent arg0) {
   }
 }
