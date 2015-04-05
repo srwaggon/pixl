@@ -2,12 +2,16 @@ package pixl;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Main {
   
   public static void main(String[] args) {
-    Frame f = new Frame("woot");
-    f.addRenderable(new Renderable() {
+    ExecutorService executor = Executors.newSingleThreadExecutor();
+    
+    Frame frame = new Frame("woot");
+    frame.addRenderable(new Renderable() {
       
       @Override
       public void render(Screen screen) {
@@ -17,6 +21,6 @@ public class Main {
         screen.render(3, 64, 32);
       }
     });
-    f.start();
+    executor.submit(frame);
   }
 }

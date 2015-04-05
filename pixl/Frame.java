@@ -3,12 +3,14 @@ package pixl;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import pixl.interaction.InputListener;
 import pixl.interaction.SimpleWindowListener;
 
-public class Frame extends java.awt.Frame implements Runnable {
+public class Frame extends java.awt.Frame implements Callable<Void> {
 
+  private static final long serialVersionUID = -2075549855504940816L;
   protected Screen screen;
   protected List<Renderable> renderables = new ArrayList<Renderable>();
 
@@ -54,12 +56,6 @@ public class Frame extends java.awt.Frame implements Runnable {
     screen.addMouseMotionListener(input);
   }
 
-  private void removeInputListener(InputListener input) {
-    screen.removeKeyListener(input);
-    screen.removeMouseListener(input);
-    screen.removeMouseMotionListener(input);
-  }
-
   public void render() {
     for (Renderable renderable : renderables) {
       renderable.render(screen);
@@ -68,19 +64,10 @@ public class Frame extends java.awt.Frame implements Runnable {
   }
 
   @Override
-  public void run() {
+  public Void call() throws Exception {
 
     while (true) {
       render();
-      try {
-        Thread.sleep(15);
-      } catch (InterruptedException ioe) {
-        ioe.printStackTrace();
-      }
     }
-  }
-
-  public void start() {
-    new Thread(this).start();
   }
 }
